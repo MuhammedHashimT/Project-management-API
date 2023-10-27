@@ -79,6 +79,12 @@ export class ProjectService {
       return SP;
     });
 
+    // make the manager isActive = false
+    manager.isAvailable = false;
+
+    // save manager
+    await this.memberService.update(manager.id, manager);
+
     return savedProject;
   }
 
@@ -116,7 +122,7 @@ export class ProjectService {
   async findOne(id: number) {
     const project = await this.projectRepository.findOne({
       where: { id },
-      relations: ['manager', 'tasks', 'skillProject', 'skillProject.skill'],
+      relations: ['manager', 'tasks', 'skillProject', 'skillProject.skill' , 'skillProject.skill.skillMembers'],
     });
     if (!project) {
       throw new HttpException('Project not found', HttpStatus.NOT_FOUND);

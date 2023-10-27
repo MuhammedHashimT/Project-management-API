@@ -68,6 +68,12 @@ export class TaskService {
     // save task
     await this.taskRepository.save(newTask);
 
+    // make the member isActive = false
+    member.isAvailable = false;
+
+    // save member
+    await this.memberService.update(member.id, member);
+
     return newTask;
   }
 
@@ -124,9 +130,9 @@ export class TaskService {
     return task;
   }
 
- async remove(id: number) {
+  async remove(id: number) {
     // check the task exists
-    const task =await this.findOne(id);
+    const task = await this.findOne(id);
     if (!task) {
       throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
     }
@@ -136,7 +142,6 @@ export class TaskService {
 
     return task;
   }
-
 
   // complete task
 
@@ -178,7 +183,54 @@ export class TaskService {
     // save task
     await this.taskRepository.save(verifiedTask);
 
+    // make the member isActive = true
+
+    verifiedTask.member.isAvailable = true;
+
+    // save member
+    await this.memberService.update(
+      verifiedTask.member.id,
+      verifiedTask.member,
+    );
+
+    // if the project is completed , that will recognize when all tasks of that project are verified , make the manager isActive = true
+
+    const project = await this.projectService.findOne(task.project.id);
+
+    const tasks = project.tasks;
+
+    const isCompleted = tasks.every((task) => task.isVerified === true);
+
+    if (isCompleted) {
+      project.manager.isAvailable = true;
+    } else {
+      project.manager.isAvailable = false;
+    }
+
+    // save manager
+    await this.memberService.update(project.manager.id, project.manager);
+
     return verifiedTask;
   }
 
+  // reject task
+
+  async rejectTask(id: number) {
+    // check the task exists
+    const task = await this.findOne(id);
+    if (!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+
+    // reject task
+    const rejectedTask = this.taskRepository.create({
+      ...task,
+      isCompleted: false,
+    });
+
+    // save task
+    await this.taskRepository.save(rejectedTask);
+
+    return rejectedTask;
+  }
 }

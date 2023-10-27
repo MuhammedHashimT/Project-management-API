@@ -99,7 +99,7 @@ export class MemberService {
         'skillMembers',
         'tasks',
         'skillMembers.skill',
-        'managedProjects',
+        'managedProjects',  
       ],
     });
     return members;
