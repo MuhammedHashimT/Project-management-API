@@ -4,7 +4,7 @@ import { Skill } from './entities/skill.entity';
 import { CreateSkillInput } from './dto/create-skill.input';
 import { UpdateSkillInput } from './dto/update-skill.input';
 // import { HasRoles, RolesGuard } from 'src/member/roles/roles.guard';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../utils/enums';
 import { UseGuards } from '@nestjs/common';
 import { HasRoles, RolesGuard } from 'src/member/roles/roles.guard';
 

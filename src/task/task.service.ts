@@ -12,7 +12,7 @@ import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { MemberService } from 'src/member/member.service';
 import { ProjectService } from 'src/project/project.service';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../utils/enums';
 
 @Injectable()
 export class TaskService {

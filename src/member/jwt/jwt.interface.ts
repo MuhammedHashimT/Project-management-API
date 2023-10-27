@@ -1,4 +1,4 @@
-import { Roles } from "src/utils/enums";
+import { Roles } from "../../utils/enums";
 
 
 export interface JwtPayload {

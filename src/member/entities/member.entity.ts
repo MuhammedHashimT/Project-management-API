@@ -3,7 +3,7 @@ import { Project } from 'src/project/entities/project.entity';
 import { SkillMember } from 'src/skill-member/entities/skill-member.entity';
 import { Skill } from 'src/skill/entities/skill.entity';
 import { Task } from 'src/task/entities/task.entity';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../../utils/enums';
 import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 

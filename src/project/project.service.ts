@@ -12,7 +12,7 @@ import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { MemberService } from 'src/member/member.service';
 import { SkillProjectService } from 'src/skill-project/skill-project.service';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../utils/enums';
 import { uploadFile } from 'src/utils/util';
 
 @Injectable()

@@ -5,7 +5,7 @@ import { CreateMemberInput } from './dto/create-member.input';
 import { UpdateMemberInput } from './dto/update-member.input';
 import { HasRoles, RolesGuard } from './roles/roles.guard';
 import { UseGuards } from '@nestjs/common';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../utils/enums';
 
 @Resolver(() => Member)
 export class MemberResolver {

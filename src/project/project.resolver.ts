@@ -4,7 +4,7 @@ import { Project } from './entities/project.entity';
 import { CreateProjectInput } from './dto/create-project.input';
 import { UpdateProjectInput } from './dto/update-project.input';
 import { HasRoles, RolesGuard } from 'src/member/roles/roles.guard';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../utils/enums';
 import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Project)

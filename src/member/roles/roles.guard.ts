@@ -3,7 +3,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 import { LoginService } from '../login/login.service';
 import { JwtPayload } from '../jwt/jwt.interface';
-import { Roles } from 'src/utils/enums';
+import { Roles } from '../../utils/enums';
 import { MemberService } from '../member.service';
 
 @Injectable()
