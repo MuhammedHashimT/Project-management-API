@@ -41,4 +41,18 @@ export class TaskResolver {
   removeTask(@Args('id', { type: () => Int }) id: number) {
     return this.taskService.remove(id);
   }
+
+  @Mutation(() => Task)
+  @HasRoles(Roles.ADMIN, Roles.MANAGER)
+  @UseGuards(RolesGuard)
+  verifyTask(@Args('id', { type: () => Int }) id: number) {
+    return this.taskService.verifyTask(id);
+  }
+
+  @Mutation(() => Task)
+  @HasRoles(Roles.ADMIN, Roles.MANAGER , Roles.MEMBER)
+  @UseGuards(RolesGuard)
+  completeTask(@Args('id', { type: () => Int }) id: number) {
+    return this.taskService.completeTask(id);
+  }
 }
