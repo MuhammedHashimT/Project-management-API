@@ -32,7 +32,7 @@ import { SkillProjectModule } from './skill-project/skill-project.module';
           database: configService.get<string>('DB_NAME'),
           entities: ['dist/**/entities/*.entity{.ts,.js}'],
           autoLoadEntities: true,
-          synchronize: true,
+          // synchronize: true,
           ssl: { "rejectUnauthorized": true },
           // migrationsTableName: 'migrations',
           // migrations: ['dist/src/database/migrations/*.js'],
@@ -66,7 +66,7 @@ import { SkillProjectModule } from './skill-project/skill-project.module';
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: '/tmp/schema.gql',
       context: ({ req , res }) => ({ req, res }),
       playground:{
         settings: {
