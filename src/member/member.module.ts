@@ -10,6 +10,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { LoginService } from './login/login.service';
 import { RolesGuard } from './roles/roles.guard';
+import { CloudinaryProvider } from './member.provider';
+import { MemberController } from './member.controller';
 
 @Module({
   imports: [
@@ -30,7 +32,9 @@ import { RolesGuard } from './roles/roles.guard';
     LoginService,
     LoginResolver,
     RolesGuard,
+    CloudinaryProvider,
   ],
-  exports: [MemberService , LoginService],
+  controllers: [MemberController],
+  exports: [MemberService , LoginService ,CloudinaryProvider ],
 })
 export class MemberModule {}

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/platform-express';
 import { MemberService } from './member.service';
 
-@Controller('')
+@Controller('member')
 export class MemberController {
   constructor(private readonly memberService: MemberService) { }
 

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/platform-express';
 import { ProjectService } from './project.service';
 
-@Controller('')
+@Controller('project')
 export class ProjectController {
   constructor(private readonly projectServeice: ProjectService) {}
 
