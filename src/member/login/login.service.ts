@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { JwtPayload } from '../jwt/jwt.interface';
 import { JwtService } from '@nestjs/jwt';
 import { Member } from '../entities/member.entity';
-import { comparePassword } from 'src/utils/util';
+import { comparePassword } from '../../utils/util';
 import { Roles } from '../../utils/enums';
 
 @Injectable()

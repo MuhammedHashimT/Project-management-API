@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
 import { Repository } from 'typeorm';
 import { SkillService } from 'src/skill/skill.service';
-import { hashPassword, uploadFile } from 'src/utils/util';
+import { hashPassword, uploadFile } from '../utils/util';
 import { SkillMemberService } from 'src/skill-member/skill-member.service';
 
 @Injectable()
