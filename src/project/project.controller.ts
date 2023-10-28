@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFile,
@@ -18,8 +19,8 @@ export class ProjectController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadImage(@UploadedFile() file: Express.Multer.File, id: number) {
-    return this.projectServeice.uploadImage(id, file);
+  uploadImage(@UploadedFile() file: Express.Multer.File,  @Body('id') id: string) {
+    return this.projectServeice.uploadImage(parseInt(id), file);
   }
 
   @Post('uploads')
