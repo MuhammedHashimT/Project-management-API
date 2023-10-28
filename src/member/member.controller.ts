@@ -22,7 +22,7 @@ export class MemberController {
   uploadImage(@UploadedFile() file: Express.Multer.File ,  @Body('id') id: string) {
     console.log(id);
     
-      // return this.memberService.uploadImage( id ,file );
+      return this.memberService.uploadImage( parseInt(id) ,file );
   }
 
   @Post('uploads')
