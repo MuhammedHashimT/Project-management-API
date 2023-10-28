@@ -24,7 +24,6 @@ export class LoginResolver {
       if (!val) {
         throw new Error('Invalid Username or Password');
       }
-      console.log(val);
       
       if (val.token) {
         context.cookie('__user', val.token, {
@@ -38,7 +37,6 @@ export class LoginResolver {
 
       }
     } catch (err) {
-        console.log(err);
         
       throw new HttpException(err.message, HttpStatus.UNAUTHORIZED);
     }

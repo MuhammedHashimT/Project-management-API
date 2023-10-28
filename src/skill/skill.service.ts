@@ -53,6 +53,7 @@ export class SkillService {
   }
 
   async findAllByIds(ids: number[]) {
+    console.log( ids);
     const skills = await this.skillRepository.findBy({ id: In(ids) })
     return skills;
   }

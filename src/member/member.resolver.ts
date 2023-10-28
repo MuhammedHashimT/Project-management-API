@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { MemberService } from './member.service';
 import { Member } from './entities/member.entity';
 import { CreateMemberInput } from './dto/create-member.input';
@@ -40,5 +40,11 @@ export class MemberResolver {
   @UseGuards(RolesGuard)
   removeMember(@Args('id', { type: () => Int }) id: number) {
     return this.memberService.remove(id);
+  }
+
+  @UseGuards(RolesGuard)
+  @Query(() => Member)
+  checkLoggedIn(@Context('req') request: any) {
+    return this.memberService.checkLoggedIn(request);
   }
 }

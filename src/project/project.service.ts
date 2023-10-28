@@ -24,9 +24,7 @@ export class ProjectService {
     private readonly skillProjectService: SkillProjectService,
   ) {}
 
-  
   async create(createProjectInput: CreateProjectInput) {
-
     // check project exists
     const project = await this.projectRepository.findOne({
       where: { title: createProjectInput.title },
@@ -46,11 +44,10 @@ export class ProjectService {
 
     // check the manager have any of the skills in the project
     const managerSkills = manager.skillMembers.map((skillMember) => {
-      if(createProjectInput.skillsIds.includes(skillMember.skill.id)){
-        return skillMember.skill.id
+      if (createProjectInput.skillsIds.includes(skillMember.skill.id)) {
+        return skillMember.skill.id;
       }
-    }
-    );
+    });
 
     if (managerSkills.length === 0) {
       throw new HttpException(
@@ -70,12 +67,11 @@ export class ProjectService {
 
     // add skill-project for each skill
     createProjectInput.skillsIds.forEach(async (skillId) => {
-      
-     const SP = await this.skillProjectService.create({
+      const SP = await this.skillProjectService.create({
         project: savedProject.id,
         skill: skillId,
       });
-      
+
       return SP;
     });
 
@@ -102,7 +98,7 @@ export class ProjectService {
     // update member
     const updatedMember = this.projectRepository.create({
       ...member,
-      imageId : imageUrl,
+      imageId: imageUrl,
     });
 
     // save member
@@ -115,14 +111,20 @@ export class ProjectService {
     const projects = await this.projectRepository.find({
       relations: ['manager', 'tasks', 'skillProject', 'skillProject.skill'],
     });
-    
+
     return projects;
   }
 
   async findOne(id: number) {
     const project = await this.projectRepository.findOne({
       where: { id },
-      relations: ['manager', 'tasks', 'skillProject', 'skillProject.skill' , 'skillProject.skill.skillMembers'],
+      relations: [
+        'manager',
+        'tasks',
+        'skillProject',
+        'skillProject.skill',
+        'skillProject.skill.skillMembers',
+      ],
     });
     if (!project) {
       throw new HttpException('Project not found', HttpStatus.NOT_FOUND);

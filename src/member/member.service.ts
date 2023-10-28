@@ -13,6 +13,9 @@ import { Repository } from 'typeorm';
 import { SkillService } from 'src/skill/skill.service';
 import { hashPassword, uploadFile } from '../utils/util';
 import { SkillMemberService } from 'src/skill-member/skill-member.service';
+import { JwtPayload } from './jwt/jwt.interface';
+import { LoginService } from './login/login.service';
+import { Roles } from 'src/utils/enums';
 
 @Injectable()
 export class MemberService {
@@ -22,6 +25,7 @@ export class MemberService {
     private readonly skillService: SkillService,
     @Inject(forwardRef(() => SkillMemberService))
     private readonly skillMemberService: SkillMemberService,
+    private readonly LoginService: LoginService,
   ) {}
 
   async create(createMemberInput: CreateMemberInput) {
@@ -140,13 +144,20 @@ export class MemberService {
     }
 
     // check is all skills exist
-    const skills = await this.skillService.findAllByIds(
+
+    let skills = [];
+
+    if(updateMemberInput.skillsIds){
+    skills = await this.skillService.findAllByIds(
       updateMemberInput.skillsIds,
     );
 
+    
     if (skills.length !== updateMemberInput.skillsIds.length) {
       throw new HttpException('Skill not found', HttpStatus.NOT_FOUND);
     }
+    }
+
 
     // update member
     const updatedMember = this.memberRepository.create(updateMemberInput);
@@ -171,4 +182,37 @@ export class MemberService {
     return member;
 
   }
+
+  async checkLoggedIn(req: any) {
+    const cookie = req.cookies['__user'];
+
+    if (!cookie) {
+      throw new HttpException('User not logged In', HttpStatus.FORBIDDEN);
+    }
+
+    const token: JwtPayload = await this.LoginService.validateJwtToken(cookie);
+
+    
+    if (token.role === Roles.ADMIN) {
+      return token;
+    }
+
+    const id = token.id;
+
+    if (!id) {
+      throw new HttpException('User not logged In', HttpStatus.FORBIDDEN);
+    }
+
+    // find the user in the database
+    const user = await this.findOne(id);
+
+    if (!user) {
+      throw new HttpException('User not logged In', HttpStatus.FORBIDDEN);
+    }
+
+    req.user = user;
+
+    return user;
+  }
+  
 }

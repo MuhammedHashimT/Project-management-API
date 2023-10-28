@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, SetMetadata } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  SetMetadata,
+} from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 import { LoginService } from '../login/login.service';
@@ -18,7 +23,7 @@ export class RolesGuard implements CanActivate {
     const requiredRoles = this.reflector.getAllAndOverride<Roles[]>('roles', [
       context.getHandler(),
       context.getClass(),
-    ]); 
+    ]);
 
     if (!requiredRoles) {
       return true; // No roles specified, allow access
@@ -38,10 +43,21 @@ export class RolesGuard implements CanActivate {
     // if the cookie is set, verify the token
     const token: JwtPayload = await this.loginService.validateJwtToken(cookie);
 
+
     // if the token is not valid, return false
     // if (!token) {
     //   this.hasRoleTOJudge(context);
     // }
+
+    // if admin return true
+
+    if (token.role === Roles.ADMIN) {
+      // check is the user is admin
+      // const adminUserName = process.env.ADMIN_USERNAME;
+      // const adminPassword = process.env.ADMIN_PASSWORD;
+
+      return true;
+    }
 
     // Assign roles based on the username
     const userId = token.id; // Assuming the username is sent in the request headers
@@ -50,19 +66,9 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
-
-    if(token.role === Roles.ADMIN) {
-
-    // check is the user is admin
-    // const adminUserName = process.env.ADMIN_USERNAME;
-    // const adminPassword = process.env.ADMIN_PASSWORD;
-
-    return true;
-    
-    
-    }
     // find the user in the database
     const user = await this.memberService.findOne(userId);
+
 
     if (!user) {
       return false;
@@ -72,7 +78,7 @@ export class RolesGuard implements CanActivate {
     req.user = user;
 
     // Check if the user has access to the requested role
-    return requiredRoles.some(role => req.user?.role === role);
+    return requiredRoles.some((role) => req.user?.role === role);
   }
 
   // This method is used by the AuthGuard to check if the user has access to Judge role
