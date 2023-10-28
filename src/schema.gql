@@ -1,0 +1,220 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type SkillProject {
+  """"""
+  id: Int
+  skill: Skill
+  project: Project
+}
+
+type Task {
+  """"""
+  id: Int
+  title: String
+  description: String
+  isCompleted: Boolean!
+  isVerified: Boolean!
+  duration: DateTime
+  member: Member
+  project: Project
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Project {
+  """"""
+  id: Int
+  title: String
+  description: String
+  duration: DateTime
+  imageId: String
+  skillProject: [SkillProject!]
+  tasks: [Task!]
+  manager: Member
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Member {
+  """"""
+  id: Int
+  username: String
+  firstName: String
+  lastName: String
+  email: String
+  bio: String
+  avatarId: String
+  isAvailable: Boolean!
+  role: Roles
+  skillMembers: [SkillMember!]
+  tasks: [Task!]
+  managedProjects: [Project!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum Roles {
+  MEMBER
+  MANAGER
+  ADMIN
+}
+
+type SkillMember {
+  """"""
+  id: Int
+  skill: Skill
+  member: Member
+}
+
+type Skill {
+  """"""
+  id: Int
+  title: String
+  description: String
+  skillMembers: [SkillMember!]
+  skillProject: [SkillMember!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type LoginType {
+  admin: Member!
+  token: String!
+}
+
+type Query {
+  skillMembers: [SkillMember!]!
+  skillMember(id: Int!): SkillMember!
+  skills: [Skill!]!
+  skill(id: Int!): Skill!
+  members: [Member!]!
+  member(id: Int!): Member!
+  getCookieValue: String!
+  skillProjects: [SkillProject!]!
+  skillProject(id: Int!): SkillProject!
+  projects: [Project!]!
+  project(id: Int!): Project!
+  tasks: [Task!]!
+  task(id: Int!): Task!
+}
+
+type Mutation {
+  createSkillMember(createSkillMemberInput: CreateSkillMemberInput!): SkillMember!
+  updateSkillMember(updateSkillMemberInput: UpdateSkillMemberInput!): SkillMember!
+  removeSkillMember(id: Int!): SkillMember!
+  createSkill(createSkillInput: CreateSkillInput!): Skill!
+  updateSkill(updateSkillInput: UpdateSkillInput!): Skill!
+  removeSkill(id: Int!): Skill!
+  createMember(createMemberInput: CreateMemberInput!): Member!
+  updateMember(updateMemberInput: UpdateMemberInput!): Member!
+  removeMember(id: Int!): Member!
+  login(username: String!, password: String!): LoginType!
+  logout: Boolean!
+  createSkillProject(createSkillProjectInput: CreateSkillProjectInput!): SkillProject!
+  updateSkillProject(updateSkillProjectInput: UpdateSkillProjectInput!): SkillProject!
+  removeSkillProject(id: Int!): SkillProject!
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  updateProject(updateProjectInput: UpdateProjectInput!): Project!
+  removeProject(id: Int!): Project!
+  addManagerToProject(projectId: Int!, managerId: Int!): Project!
+  createTask(createTaskInput: CreateTaskInput!): Task!
+  updateTask(updateTaskInput: UpdateTaskInput!): Task!
+  removeTask(id: Int!): Task!
+}
+
+input CreateSkillMemberInput {
+  skill: Int
+  member: Int
+}
+
+input UpdateSkillMemberInput {
+  skill: Int
+  member: Int
+  id: Int!
+}
+
+input CreateSkillInput {
+  title: String!
+  description: String!
+}
+
+input UpdateSkillInput {
+  title: String
+  description: String
+  id: Int!
+}
+
+input CreateMemberInput {
+  username: String!
+  password: String!
+  firstName: String!
+  lastName: String
+  email: String!
+  bio: String
+  role: Roles!
+  skillsIds: [Int!]
+}
+
+input UpdateMemberInput {
+  username: String
+  password: String
+  firstName: String
+  lastName: String
+  email: String
+  bio: String
+  role: Roles
+  skillsIds: [Int!]
+  id: Int!
+}
+
+input CreateSkillProjectInput {
+  skill: Int
+  project: Int
+}
+
+input UpdateSkillProjectInput {
+  skill: Int
+  project: Int
+  id: Int!
+}
+
+input CreateProjectInput {
+  title: String
+  description: String
+  duration: DateTime
+  skillsIds: [Int!]
+  managerId: Int
+}
+
+input UpdateProjectInput {
+  title: String
+  description: String
+  duration: DateTime
+  skillsIds: [Int!]
+  managerId: Int
+  id: Int!
+}
+
+input CreateTaskInput {
+  title: String!
+  description: String
+  duration: DateTime
+  memberId: Int
+  projectId: Int
+}
+
+input UpdateTaskInput {
+  title: String
+  description: String
+  duration: DateTime
+  memberId: Int
+  projectId: Int
+  id: Int!
+}
