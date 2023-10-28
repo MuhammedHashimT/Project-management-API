@@ -20,8 +20,6 @@ export class MemberController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadImage(@UploadedFile() file: Express.Multer.File ,  @Body('id') id: string) {
-    console.log(id);
-    
       return this.memberService.uploadImage( parseInt(id) ,file );
   }
 
