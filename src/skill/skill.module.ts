@@ -10,4 +10,4 @@ import { MemberModule } from 'src/member/member.module';
   providers: [SkillResolver, SkillService],
   exports:[SkillService]
 })
-export class SkillModule {}
+export class SkillModule {} 

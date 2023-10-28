@@ -6,7 +6,7 @@ import { Member } from "../entities/member.entity";
 export class LoginType {
   @Field(() => Member)
   admin: Member;
-
+// token
  @Field()
   token:string;
 }
